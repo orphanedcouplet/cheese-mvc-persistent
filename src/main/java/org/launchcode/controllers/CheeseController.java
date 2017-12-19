@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.lang.reflect.Array;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by LaunchCode
@@ -78,6 +82,24 @@ public class CheeseController {
         }
 
         return "redirect:";
+    }
+
+    // bonus mission on part 2
+    // display cheeses of given category at URLs like "/cheese/category/2" where 2 is the id of any category in the system
+    // UPDATE: it works! but the URL is of format "/cheese?categoryId=2"
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String category(Model model, int categoryId) {
+
+        Category category = categoryDao.findOne(categoryId);
+
+        List<Cheese> cheesesOfCategory = category.getCheeses();
+
+        String title = MessageFormat.format("{0} cheeses", category.getName());
+        model.addAttribute("title", title);
+
+        model.addAttribute("cheeses", cheesesOfCategory);
+
+        return "cheese/index";
     }
 
 }
