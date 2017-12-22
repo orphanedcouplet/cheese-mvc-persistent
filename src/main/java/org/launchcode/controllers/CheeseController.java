@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.lang.reflect.Array;
@@ -84,18 +81,16 @@ public class CheeseController {
         return "redirect:";
     }
 
-    // bonus mission on part 2
+    // TODO bonus mission on part 2
     // display cheeses of given category at URLs like "/cheese/category/2" where 2 is the id of any category in the system
-    // UPDATE: it works! but the URL is of format "/cheese?categoryId=2"
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String category(Model model, int categoryId) {
+    @RequestMapping(value = "category/{categoryId}", method = RequestMethod.GET)
+    public String category(@PathVariable("categoryId") int categoryId, Model model) {
 
         Category category = categoryDao.findOne(categoryId);
 
         List<Cheese> cheesesOfCategory = category.getCheeses();
 
-        String title = MessageFormat.format("{0} cheeses", category.getName());
-        model.addAttribute("title", title);
+        model.addAttribute("title", category.getName() + " cheeses");
 
         model.addAttribute("cheeses", cheesesOfCategory);
 

@@ -7,15 +7,15 @@
 
 <nav th:replace="fragments :: navigation"></nav>
 
-<p th:unless="${categories} and ${categories.size()}">no categories :(</p>
+<p th:unless="${menus} and ${menus.size()}">no menus :(</p>
 
 <ul>
-    <span th:each="category : ${categories}">
-        <li><a th:href="@{/cheese/category/} + ${category.id}" th:text="${category.name}"></a></li>
+    <span th:each="menu : ${menus}">
+        <li><a th:href="@{/menu/view/} + ${menu.id}" th:text="${menu.name}"></a></li>
     </span>
 </ul>
 
-<nav><a href="/category/add">Add Category</a></nav>
+<nav><a href="/menu/add">Add Menu</a></nav>
 
 </body>
 </html>
